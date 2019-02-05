@@ -10,7 +10,7 @@
 * 癖があるjavascriptの環境ですが、CHIRIMENによるIoTの学習的には他の小型のボードコンピュータ上の開発言語よりは言語や開発環境の統一の面で良いと思います
 
 ## WebApps ##
-* [ためしてみる](https://svg2.mbsrv.net/chirimen/bt/index.html)
+* [ためしてみる](http://chirimen.org/webGPIO-etc-on-microbit-via-webBluetooth/example.html)
 * 使い方はhtmlを参照してください
 * [microBitBLE.js](microBitBLE.js)がmicro:bitのセンサなどをWebBluetooth経由で使うためのドライバライブラリです。GPIOピンはwebGPIOに準拠したAPIで操作します。
 * CHIRIMEN for Raspberry Pi3環境で動作確認。CHIRIMEN for Raspberry Pi3上のGPIO、I2Cと同時利用可能です。
