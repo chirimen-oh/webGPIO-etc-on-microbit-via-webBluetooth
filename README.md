@@ -10,8 +10,8 @@
 ## WebApps ##
 * [ためしてみる](https://svg2.mbsrv.net/chirimen/bt/index.html)
 * 使い方はhtmlを参照してください
-* [microBitBLE.js](microBitBLE.js)がmicro:bitのセンサなどをWebBluetooth経由で使うためのドライバライブラリです。
-* CHIRIMEN for Raspberry Pi3環境で動作確認
+* [microBitBLE.js](microBitBLE.js)がmicro:bitのセンサなどをWebBluetooth経由で使うためのドライバライブラリです。GPIOピンはwebGPIOに準拠したAPIで操作します。
+* CHIRIMEN for Raspberry Pi3環境で動作確認。CHIRIMEN for Raspberry Pi3上のGPIO、I2Cと同時利用可能です。
 * Bluetoothインターフェースが載ったコンピュータでも動作すると思います。
   * ブラウザはChromeや Chromiumなど、Web Bluetoothサポートブラウザが必要
   * MacやWindows, Linux PC
