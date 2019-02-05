@@ -1,5 +1,5 @@
 # [webGPIO-etc-on-microbit-via-webBluetooth](http://chirimen.org/webGPIO-etc-on-microbit-via-webBluetooth/) #
- micro:bit内蔵のセンサーやLED、スイッチ、GPIOポートを、web bluetooth経由でウェブアプリから使う。GPIOポートAPIはwebGPIOにほぼ準拠、拡張機能としてアナログ入力に対応。CHIRIMEN for RPi3のGPIO,I2Cとも同時利用可能。
+ micro:bit内蔵のセンサーやLED、スイッチ、GPIOポートを、web bluetooth経由でウェブアプリから使う。GPIOポートAPIは[https://rawgit.com/browserobo/WebGPIO/master/index.html](webGPIO)にほぼ準拠、拡張機能としてアナログ入力に対応。[https://chirimen.org/chirimen-raspi3/](CHIRIMEN for RPi3)のGPIO,I2Cとも同時利用可能。
 
 [micro:bit](https://ja.wikipedia.org/wiki/BBC_Micro:bit)は、子供向けの教育用ボードコンピュータですが、Bluetooth搭載で、たくさんのセンサーや表示装置、さらにGPIO端子も載っています。コストパフォーマンスも入手性も良いと思いますので、Bluetoothを用いたIoTのプロトタイピングで、ワイヤレスのセンサーやアクチュエーターなどとして便利に活用できると思います。
 
@@ -12,7 +12,7 @@
 ## WebApps ##
 * [ためしてみる](https://chirimen.org/webGPIO-etc-on-microbit-via-webBluetooth/example.html)
 * 使い方は[example.htmlを参照](https://github.com/chirimen-oh/webGPIO-etc-on-microbit-via-webBluetooth/blob/master/example.html)してください
-* [microBitBLE.js](microBitBLE.js)がmicro:bitのセンサなどをWebBluetooth経由で使うためのドライバライブラリです。GPIOピンはwebGPIOに準拠したAPIで操作します。
+* [microBitBLE.js](microBitBLE.js)がmicro:bitのセンサなどをWebBluetooth経由で使うためのドライバライブラリです。GPIOピンはCHIRIMEN for RPi3と同じく、webGPIOに準拠したAPIで操作します。
 * CHIRIMEN for Raspberry Pi3環境で動作確認。CHIRIMEN for Raspberry Pi3上のGPIO、I2Cと同時利用可能です。
 * Bluetoothインターフェースが載ったコンピュータでも動作すると思います。
   * ブラウザはChromeや Chromium。Web Bluetoothサポートブラウザが必要
