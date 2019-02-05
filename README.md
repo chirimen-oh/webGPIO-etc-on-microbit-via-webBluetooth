@@ -13,6 +13,7 @@
 * [ためしてみる](https://chirimen.org/webGPIO-etc-on-microbit-via-webBluetooth/example.html)
 * 使い方は[example.htmlを参照](https://github.com/chirimen-oh/webGPIO-etc-on-microbit-via-webBluetooth/blob/master/example.html)してください
 * [microBitBLE.js](microBitBLE.js)がmicro:bitのセンサなどをWebBluetooth経由で使うためのドライバライブラリです。
+　* 使える内蔵デバイス: 3軸加速度, 3軸磁気, 温度, ボタンAB, マトリクスLED(文字・パターン)
   * GPIOピンはCHIRIMEN for RPi3と同じく、[webGPIO](https://rawgit.com/browserobo/WebGPIO/master/index.html)に準拠したAPIで操作します。
   * Pin(Port)0,1,2はWebGPIOのexport関数で"analogin"を指定することでアナログ入力(0-3V,8bit)も可能です。
   * ドライバライブラリ(microBitBLE.js)は[こちら](https://github.com/chirimen-oh/webGPIO-etc-on-microbit-via-webBluetooth/blob/master/microBitBLE.js)）
