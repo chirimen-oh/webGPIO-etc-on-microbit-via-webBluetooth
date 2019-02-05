@@ -16,7 +16,7 @@
 * CHIRIMEN for Raspberry Pi3環境で動作確認。CHIRIMEN for Raspberry Pi3上のGPIO、I2Cと同時利用可能です。
 * Bluetoothインターフェースが載ったコンピュータでも動作すると思います。
   * ブラウザはChromeや Chromium。Web Bluetoothサポートブラウザが必要
-  * MacやWindows, Linux PC (Windowsでは、データ取得系APIに動作不具合があるようです Notes参照)
+  * MacやWindows, Linux PC (Windowsでは、データ取得系APIに動作不具合があるようです。ISSUES参照)
   * Androidスマホ、タブレット
 * [ドライバライブラリ(microBitBLE.js)はこちら](https://github.com/chirimen-oh/webGPIO-etc-on-microbit-via-webBluetooth/blob/master/microBitBLE.js)
 
