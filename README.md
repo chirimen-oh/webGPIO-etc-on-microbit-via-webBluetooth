@@ -22,6 +22,15 @@
   * requestDevice()は、人による操作(buttonなど)を引き金にして呼び出される必要がある(らしい)（一回の操作から二回呼び出すのもNG）
   * UUIDはハイフンをしっかり入れる必要がある。
 
+## 回路図 ##
+### GPIO(Pin)を使わない場合 ###
+GPIO(Pin)を使わない場合は単純です。（exampleはこれでも動きます)
+imgs/micro_bit.png
+
+### GPIO(Pin)を使う場合 ###
+GPIO(Pin)を使う場合はmicro:bitのブレークアウトボードを使ってピンヘッダを経由して配線します
+imgs/micro_bit_gpio.png
+
 ## ToDo, ISSUES ##
 * micro:bitのI2Cを使いこなすコードは別途・・・　もちろん webI2C over webBluetoothにしたいですね。
 * chrome/windows10では、microBitBLE.get* APIが全部うまく動いてない？(値が変わらない・・) WebBluetooth/Chrome/Windows10の実装がおかしい？ (CHIRIMEN RPi3(というよりraspbian(linux)上のchromium)ではうまく動いています)
