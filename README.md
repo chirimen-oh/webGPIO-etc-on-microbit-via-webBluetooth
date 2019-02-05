@@ -18,11 +18,6 @@
   * ブラウザはChromeや Chromiumなど、Web Bluetoothサポートブラウザが必要
   * MacやWindows, Linux PC
   * Androidスマホ、タブレット
-* セキュリティサンドボックス面で、結構ハマりポイントがある
-  * https必須
-  * requestDevice()では、optionalServicesの列挙が必須(ソース参照)
-  * requestDevice()は、人による操作(buttonなど)を引き金にして呼び出される必要がある(らしい)（一回の操作から二回呼び出すのもNG）
-  * UUIDはハイフンをしっかり入れる必要がある。
 
 ## 回路図 ##
 ### GPIO(Pin)を使わない場合 ###
@@ -32,6 +27,13 @@ GPIO(Pin)を使わない場合は単純です。（example.htmlはこれでも�
 ### GPIO(Pin)を使う場合 ###
 GPIO(Pin)を使う場合は[micro:bitのブレークアウトボード](https://www.google.com/search?q=micro:bit+breakout&tbm=isch)を使ってピンヘッダ経由で配線します。
 ![GPIOを使う場合の回路図](imgs/micro_bit_gpio.png)
+
+## Notes ##
+* webBluetoothは、セキュリティサンドボックス面で、結構ハマりポイントがある
+  * https必須
+  * requestDevice()では、optionalServicesの列挙が必須(ソース参照)
+  * requestDevice()は、人による操作(buttonなど)を引き金にして呼び出される必要がある(らしい)（一回の操作から二回呼び出すのもNG）
+  * UUIDはハイフンをしっかり入れる必要がある。
 
 ## ToDo, ISSUES ##
 * micro:bitのI2Cを使いこなすコードは別途・・・　もちろん webI2C over webBluetoothにしたいですね。
