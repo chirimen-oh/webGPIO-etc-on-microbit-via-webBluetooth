@@ -6,7 +6,7 @@
 ## Code on micro:bit ##
 * micro:bit側には以下のコードをロードします。
 * https://makecode.microbit.org/_YHtdtK9kt9Rz
-* 上記をtypeScriptにしたソースを念のため置いておきます。[microbitSource.js](microbitSource.js)
+* 上記をtypeScriptにしたソースを念のため置いておきます。[microbitFirmware.js](microbitSource.js)
 * 癖があるjavascriptの環境ですが、CHIRIMENによるIoTの学習的には他の小型のボードコンピュータ上の開発言語よりは言語や開発環境の統一の面で良いと思います
 
 ## WebApps ##
@@ -15,9 +15,10 @@
 * [microBitBLE.js](microBitBLE.js)がmicro:bitのセンサなどをWebBluetooth経由で使うためのドライバライブラリです。GPIOピンはwebGPIOに準拠したAPIで操作します。
 * CHIRIMEN for Raspberry Pi3環境で動作確認。CHIRIMEN for Raspberry Pi3上のGPIO、I2Cと同時利用可能です。
 * Bluetoothインターフェースが載ったコンピュータでも動作すると思います。
-  * ブラウザはChromeや Chromiumなど、Web Bluetoothサポートブラウザが必要
-  * MacやWindows, Linux PC
+  * ブラウザはChromeや Chromium。Web Bluetoothサポートブラウザが必要
+  * MacやWindows, Linux PC (Windowsでは、データ取得系APIに動作不具合があるようです Notes参照)
   * Androidスマホ、タブレット
+* [ドライバライブラリはこちら](https://github.com/chirimen-oh/webGPIO-etc-on-microbit-via-webBluetooth/blob/master/microBitBLE.js)
 
 ## 回路図 ##
 ### GPIO(Pin)を使わない場合 ###
