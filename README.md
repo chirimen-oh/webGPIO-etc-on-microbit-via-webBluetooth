@@ -24,12 +24,12 @@
 
 ## 回路図 ##
 ### GPIO(Pin)を使わない場合 ###
-GPIO(Pin)を使わない場合は単純です。（exampleはこれでも動きます)
-(imgs/micro_bit.png)
+GPIO(Pin)を使わない場合は単純です。（exampleはこれでも動きます。電源は供給してください)
+![GPIOを使わない場合の回路図](imgs/micro_bit.png)
 
 ### GPIO(Pin)を使う場合 ###
 GPIO(Pin)を使う場合はmicro:bitのブレークアウトボードを使ってピンヘッダを経由して配線します
-(imgs/micro_bit_gpio.png)
+![GPIOを使わない場合の回路図](imgs/micro_bit_gpio.png)
 
 ## ToDo, ISSUES ##
 * micro:bitのI2Cを使いこなすコードは別途・・・　もちろん webI2C over webBluetoothにしたいですね。
