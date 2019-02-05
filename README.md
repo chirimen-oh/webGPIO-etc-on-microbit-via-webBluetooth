@@ -15,7 +15,7 @@
 * [microBitBLE.js](microBitBLE.js)がmicro:bitのセンサなどやGPIOピンをWebBluetooth経由で使うためのドライバライブラリです。
   * 使える内蔵デバイス: 3軸加速度, 3軸磁気, 温度, ボタンAB, マトリクスLED(文字・パターン)
   * GPIOピンはCHIRIMEN for RPi3と同じく、[webGPIO](https://rawgit.com/browserobo/WebGPIO/master/index.html)に準拠したAPIで操作します。
-  * Pin(Port)0,1,2は、export("analogin")でアナログ入力(0-3V,8bit)になります。
+  * Pin(Port)0,1,2は、export("analogin")でアナログ入力(0-3V,8bit)にもできます。
   * ドライバライブラリ(microBitBLE.js)は[こちら](https://github.com/chirimen-oh/webGPIO-etc-on-microbit-via-webBluetooth/blob/master/microBitBLE.js)）
 * ホストコンピュータの要件
   * CHIRIMEN for Raspberry Pi3環境で動作確認。CHIRIMEN for Raspberry Pi3上のGPIO、I2Cと同時利用可能です。
