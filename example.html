@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0" />
+<title></title>
+</head>
+
+<!-- micro:bit via WebBTドライバ　Note:CHIRIMEN For RPi3で使う場合は、CHIRIMEN For RPi3polyfill.jsの後にロードしてください -->
+<script type="text/javascript" src="microBitBLE4.js"></script> 
+
+
+<script>
+async function connectMicroBit(){
+	//	Notes on microBitBLE.connect()
+	//		使用にあたってまずこの関数を呼び出す。ただし、
+	//		WebBluetoothの制約により、<input> buttonなど、Human-Interactionを起点にして呼び出される必要がある(らしい)
+	await microBitBLE.connect();
+	
+	// 各センサーの変化検知のコールバック関数設定
+	//		コールバック関数は一つの引数を持つ必要があり、この引数にセンサーデータが返される
+	//			（磁気・加速度は引数.x,.y,.zに各軸の値が返される。以下参照）
+	microBitBLE.onThermometerChange = temperatureCBF;
+	microBitBLE.onMagnetometerChange = magnetometerCBF;
+	microBitBLE.onAccelerometerChange = accelerometerCBF;
+	microBitBLE.onButtonAChange = buttonACBF;
+	microBitBLE.onButtonBChange = buttonBCBF;
+	
+	disc.disabled="";
+	
+	// GPIOピンはwebGPIOで使います。
+	await testWebGPIO();
+	
+}
+
+var port0, port1, port2, port8, port14;
+async function testWebGPIO(){
+	// WebGPIO test function
+	
+	// for CHIRIMEN RPi3: Use microBitBLE.requestGPIOAccess insted of (navigator.)requestGPIOAccess
+	
+	// Notes on Port info / micro:bit
+	//  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6  : Port Number
+	// [1,1,1,0,0,1,0,0,1,0,0,1,0,1,1,1,1]; // Available ports (LED matrix ports are unavailable)
+	// [0,0,0,0,0,1,0,0,0,0,0,2,0,0,0,0,0]; // Button ports : 1:Button-A, 2:Button-B
+	// [1,1,1,0,0,0,0,0,1,0,0,0,0,1,1,1,1]; // Out available ports
+	// [1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0]; // Analog in available ports  (Extended func. Set export("analogin") )
+
+	var mbGpioPorts = (await microBitBLE.requestGPIOAccess()).ports;
+	console.log("microBitBLE GpioPorts:",mbGpioPorts);
+	
+	
+	port0 = mbGpioPorts.get(0);
+	await port0.export("out");
+	
+	port8 = mbGpioPorts.get(8);
+	await port8.export("in");
+	port8.onchange = WebGPIOPortOnChangeGen(8);
+	
+	// Set Port2 to analog-input
+	port2 = mbGpioPorts.get(2);
+	await port2.export("analogin");
+	port2.onchange = WebGPIOPortOnChangeGen(2);
+	
+	// Set Port1 and 14 to dugutal-output for blinking
+	port1 = mbGpioPorts.get(1);
+	await port1.export("out");
+	port14 = mbGpioPorts.get(14);
+	await port14.export("out");
+	blinkPort1_14();
+}
+
+function WebGPIOPortOnChangeGen(port){
+	return function(val){
+//		console.log("WebGPIOPortOnChange:",port,":",val);
+		pinEv.innerHTML= "port:"+port+"  val:"+val;
+	}
+}
+
+var blinkEnabled;
+async function blinkPort1_14(){
+	blinkEnabled = true;
+	while(blinkEnabled){
+		try{
+			await port1.write(0);
+			await port14.write(1);
+			await microBitBLE.sleep(500); // this is generic sleep function in ms
+			await port1.write(1);
+			await port14.write(0);
+			await microBitBLE.sleep(500);
+		} catch ( e ){
+			
+		}
+	}
+}
+
+
+function disconnectMicroBit(){
+	blinkEnabled = false;
+	microBitBLE.disconnect();
+	disc.disabled="true";
+}
+
+function accelerometerCBF(val){
+	ax.innerHTML = val.x;
+	ay.innerHTML = val.y;
+	az.innerHTML = val.z;
+}
+
+function magnetometerCBF(val){
+	mx.innerHTML = val.x;
+	my.innerHTML = val.y;
+	mz.innerHTML = val.z;
+}
+
+function temperatureCBF(val){
+	tempera.innerHTML = val;
+}
+
+function buttonACBF(val){
+	btnA.innerHTML = ( val == 0 ? "OFF" : "ON");
+}
+
+function buttonBCBF(val){
+	btnB.innerHTML = ( val == 0 ? "OFF" : "ON");
+}
+
+function showText(){
+	//	Notes on  microBitBLE.setLEDtext()
+	//		引数には、表示したい文字列を入れる。言うまでもないですがアスキー文字のみ
+	var ptext = txt.value;
+	microBitBLE.setLEDtext(ptext);
+}
+
+function showMatrix( event ){
+	//	Notes on  microBitBLE.setLEDmatrix()
+	//		引数には、表示したいドットパターンをUint8Array(5)の形で入れる
+	// 1row(桁)を一つのUint8ビット列で
+	// それを5個～行に対応
+	console.log("called setLEDmatrix ", event);
+	matrix = [];
+	checkBoxes = event.target.parentElement.getElementsByTagName("input");
+	for ( var i = 0 ; i < checkBoxes.length ; i++ ){
+		matrix[i]=checkBoxes[i].checked;
+	}
+	console.log("LEDmat:",matrix);
+	var i = 0;
+	var matrixData = new Uint8Array(5);
+	for ( var row = 0 ; row < 5 ; row++ ){
+		var bit = 16;
+		for ( var col = 0 ; col < 5 ; col++ ){
+			if ( matrix[i] ){
+				matrixData[row] += bit;
+			}
+			bit /=2;
+			++i;
+		}
+		console.log("row:",row," : ",matrixData[row].toString(2));
+	}
+	console.log(matrixData);
+	microBitBLE.setLEDmatrix(matrixData);
+}
+
+async function getSensorData(){
+	//	Notes on  microBitBLE.get*()
+	//		返却される値は各センサーの値（磁気・加速度は.x,.y,.zに各軸の値）
+	//		.getAccelerometer、.getMagnetometer、.getTemperature、.getButtonA、.getButtonBがある
+	var acc = await microBitBLE.getAccelerometer();
+	var mag = await microBitBLE.getMagnetometer();
+	var temp = await microBitBLE.getTemperature();
+	var btnA = await microBitBLE.getButtonA();
+	var btnB = await microBitBLE.getButtonB();
+	var pin2val = await port2.read();
+	var pin8val = await port8.read();
+	console.log(microBitBLE);
+	console.log("Acc:",acc," Mag:",mag," Tmp:",temp," bA:",btnA," bB:",btnB," pin2:",pin2val," pin8:",pin8val);
+	sdata.innerHTML = "Acc:"+acc.x+","+acc.y+","+acc.z+" Mag:"+mag.x+","+mag.y+","+mag.z+" Tmp:"+temp+" bA:"+btnA+" bB:"+btnB+" pin2:"+pin2val+" pin8:"+pin8val;
+}
+
+var g0Val=0;
+async function setGPIO0(){
+	try{
+		g0Val = (g0Val === 1 ) ? 0 : 1;
+		await port0.write(g0Val);
+		gdata.innerHTML=g0Val;
+	} catch(e){
+		console.log("retry");
+		g0Val = (g0Val === 1 ) ? 0 : 1;
+		microBitBLE.sleep(100);
+		await setGPIO0();
+	}
+}
+
+</script>    
+
+<body>
+	<form name="js">
+	<input type="button" value="Connect" onclick="connectMicroBit();"/> 
+	<input type="button" value="Disconnect" onclick="disconnectMicroBit();" id="disc" disabled="true"/> 
+
+	<table>
+		<tr><td colspan="2">Accelerometer</td></tr>
+		<tr><td>x:</td><td id="ax"></td></tr>
+		<tr><td>y:</td><td id="ay"></td></tr>
+		<tr><td>z:</td><td id="az"></td></tr>
+		<tr><td colspan="2">Magnetometer</td></tr>
+		<tr><td>x:</td><td id="mx"></td></tr>
+		<tr><td>y:</td><td id="my"></td></tr>
+		<tr><td>z:</td><td id="mz"></td></tr>
+		<tr><td colspan="2">Buttons</td></tr>
+		<tr><td>A:</td><td id="btnA">OFF</td></tr>
+		<tr><td>B:</td><td id="btnB">OFF</td></tr>
+		<tr><td colspan="1">Temperature</td><td id="tempera"></td></tr>
+		<tr><td colspan="2">LED</td></tr>
+		<tr><td ><input id="txt" type="text" value="Hello!" ></td><td><input type="button" value="Print" onclick="showText();"/></td></tr>
+		<tr><td onclick="showMatrix(event);">
+		<INPUT type="checkbox"><INPUT type="checkbox"><INPUT type="checkbox"><INPUT type="checkbox"><INPUT type="checkbox"><br>
+		<INPUT type="checkbox"><INPUT type="checkbox"><INPUT type="checkbox"><INPUT type="checkbox"><INPUT type="checkbox"><br>
+		<INPUT type="checkbox"><INPUT type="checkbox"><INPUT type="checkbox"><INPUT type="checkbox"><INPUT type="checkbox"><br>
+		<INPUT type="checkbox"><INPUT type="checkbox"><INPUT type="checkbox"><INPUT type="checkbox"><INPUT type="checkbox"><br>
+		<INPUT type="checkbox"><INPUT type="checkbox"><INPUT type="checkbox"><INPUT type="checkbox"><INPUT type="checkbox">
+		</td></tr>
+		<tr><td><input type="button" value="getSensorData" onclick="getSensorData();"/></td><td id="sdata">NULL</td></tr>
+		<tr><td><input type="button" value="toggle GPIO-0 out" onclick="setGPIO0();"/></td><td id="gdata">NULL</td></tr>
+		<tr><td>Pin2(A),Pin8(D) onchange</td><td id="pinEv" style="font-weight:bold;"></td></tr>
+	</table>
+
+</body>
+</html>
