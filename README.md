@@ -4,6 +4,7 @@
 [micro:bit](https://ja.wikipedia.org/wiki/BBC_Micro:bit)は、子供向けの教育用ボードコンピュータですが、Bluetooth搭載で、たくさんのセンサーや表示装置も載っています。コストパフォーマンスも入手性も良いと思いますので、Bluetoothを用いたIoTのプロトタイピングで、ワイヤレスのセンサーなどとして便利に活用できると思います。
 
 ## Code on micro:bit ##
+* micro:bit側には以下のコードをロードします。
 * https://makecode.microbit.org/_YHtdtK9kt9Rz
 * 上記のtypeScriptにしたソースを念のため置いておきます。[microbitSource.js](microbitSource.js)
 * 癖があるjavascriptの環境ですが、CHIRIMENによるIoTの学習的には他の小型のボードコンピュータ上の開発言語よりは言語や開発環境の統一の面で良いと思います
