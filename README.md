@@ -26,7 +26,7 @@
 
 ## 回路図 ##
 ### GPIO(Pin)を使わない場合 ###
-GPIO(Pin)を使わない場合は単純です。（exampleはこれでも動きます。電源は供給してください)
+GPIO(Pin)を使わない場合は単純です。（example.htmlはこれでも動きます。電源は供給してください)
 ![GPIOを使わない場合の回路図](imgs/micro_bit.png)
 
 ### GPIO(Pin)を使う場合 ###
