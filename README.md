@@ -18,7 +18,7 @@
   * ブラウザはChromeや Chromium。Web Bluetoothサポートブラウザが必要
   * MacやWindows, Linux PC (Windowsでは、データ取得系APIに動作不具合があるようです Notes参照)
   * Androidスマホ、タブレット
-* [ドライバライブラリはこちら](https://github.com/chirimen-oh/webGPIO-etc-on-microbit-via-webBluetooth/blob/master/microBitBLE.js)
+* [ドライバライブラリ(microBitBLE.js)はこちら](https://github.com/chirimen-oh/webGPIO-etc-on-microbit-via-webBluetooth/blob/master/microBitBLE.js)
 
 ## 回路図 ##
 ### GPIO(Pin)を使わない場合 ###
