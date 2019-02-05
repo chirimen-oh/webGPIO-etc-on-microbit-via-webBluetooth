@@ -40,6 +40,7 @@ example.htmlのGPIO部は、以下の回路図で動くように組まれてい�
   * https必須
   * requestDevice()では、optionalServicesの列挙が必須(ドライバソース参照)
   * requestDevice()は、人による操作(buttonなど)を引き金にして呼び出される必要がある(らしい)（一回の操作から二回呼び出すのもNG）
+    * そのため、microBitBLE.connect()も同じ制約がある
   * UUIDはハイフンをしっかり入れる必要がある。
 
 ## ToDo, ISSUES ##
