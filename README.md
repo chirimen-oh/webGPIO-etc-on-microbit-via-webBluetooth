@@ -27,6 +27,7 @@ GPIO(Pin)を使わない場合は単純です。（example.htmlはこれでも�
 
 ### GPIO(Pin)を使う場合 ###
 GPIO(Pin)を使う場合は、Pin0,1,2はワニ口クリップなどで結線できます。それ以外のピンは[micro:bitのブレークアウトボード](https://www.google.com/search?q=micro:bit+breakout&tbm=isch)を使ってピンヘッダ経由で配線します。
+example.htmlは、以下の回路図で動くように組まれています。
 ![GPIOを使う場合の回路図](imgs/micro_bit_gpio.png)
 
 ## Notes ##
