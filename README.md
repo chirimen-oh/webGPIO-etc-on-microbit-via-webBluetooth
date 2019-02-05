@@ -43,5 +43,6 @@ example.htmlのGPIO部は、以下の回路図で動くように組まれてい�
   * UUIDはハイフンをしっかり入れる必要がある。
 
 ## ToDo, ISSUES ##
+* PWM-output
 * micro:bitのI2Cを使いこなすコードは別途・・・　もちろん webI2C over webBluetoothにしたいですね。
 * chrome/windows10では、microBitBLE.get* APIが全部うまく動いてない？(値が変わらない・・) WebBluetooth/Chrome/Windows10の実装がおかしい？ (CHIRIMEN RPi3(というよりraspbian(linux)上のchromium)ではうまく動いています)
