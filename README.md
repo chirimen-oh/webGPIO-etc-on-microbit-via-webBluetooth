@@ -74,14 +74,14 @@ microBitBLE.onAccelerometerChange = accelerometerCBF;
   * 指定したASCII文字列が流れて表示するタイプ、指定したビットパターンが固定表示されるタイプの二つの関数が使えます。
   
 #### ASCII文字列表示 ####
-```microBitBLE.setLEDtext(ptext);```
+```microBitBLE.setLEDtext("hello!");```
 
 #### ビットパターン表示 ####
 ```microBitBLE.setLEDmatrix(matrixData);```
   * matrixData は Uint8Array(5) (```var matrixData = new Uint8Array(5);```)
   * 配列の0番目:一番上の列...4番目:一番下の列
   * 各配列には8ビット右詰めで、LEDの各桁の点灯状態入れていく(点灯:1,消灯:0)
-例：で周囲と中心のLEDを点灯
+  * 例：周囲と中心のLEDを点灯
 ```
 var matrixData = new Uint8Array([0b11111,0b10001,0b10101,0b10001,0b11111]);
 microBitBLE.setLEDmatrix(matrixData);
