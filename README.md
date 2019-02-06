@@ -8,6 +8,7 @@
   * [https://makecode.microbit.org/_YHtdtK9kt9Rz](https://makecode.microbit.org/_YHtdtK9kt9Rz)
   * 上記をtypeScriptにしたソースを念のため置いておきます。[microbitFirmware.js](microbitFirmware.js)
   * 癖があるjavascriptの環境ですが、CHIRIMENによるIoTの学習的には他の小型のボードコンピュータよりは言語や開発環境の統一の面で良いと思います
+* ロードが成功すると、初期状態ではLEDに"♡(ハートマーク)"、masterとの接続が完了すると"◇"表示になります。
 
 ## WebApps on Host Computer (master) ##
 * **[ためしてみる](https://chirimen.org/webGPIO-etc-on-microbit-via-webBluetooth/example.html)**
