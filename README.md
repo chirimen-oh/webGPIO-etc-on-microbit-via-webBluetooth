@@ -12,7 +12,7 @@
 ## WebApps on Host Computer (master) ##
 * **[ためしてみる](https://chirimen.org/webGPIO-etc-on-microbit-via-webBluetooth/example.html)**
 * [microBitBLE.js](microBitBLE.js)がmicro:bitのセンサなどやGPIOピンをWebBluetooth経由で使うためのドライバライブラリです。
-  * 使い方は[example.htmlを参照](https://github.com/chirimen-oh/webGPIO-etc-on-microbit-via-webBluetooth/blob/master/example.html)してください
+  * 使い方は後ろの章**[ライブラリの使い方](#ライブラリの使い方)**を参照して下さい。
   * 使える内蔵デバイス: 3軸加速度, 3軸磁気, 温度, ボタンAB, マトリクスLED(文字・パターン)
   * GPIOピンはCHIRIMEN for RPi3と同じく、[webGPIO](https://rawgit.com/browserobo/WebGPIO/master/index.html)に準拠したAPIで操作します。
   * Pin(Port)0,1,2は、export("analogin")でアナログ入力(0-3V,8bit)にもできます。
@@ -24,7 +24,6 @@
     * MacやWindows, Linux PC (Windowsでは、データ取得系APIに動作不具合があるようです。ISSUES参照)
     * Androidスマホ、タブレット
 
-
 ## 回路図 ##
 ### GPIO(Pin)を使わない場合 ###
 GPIO(Pin)を使わない場合は単純です。（example.htmlはこれでも動きます。電源は供給してください)
@@ -34,6 +33,38 @@ GPIO(Pin)を使わない場合は単純です。（example.htmlはこれでも�
 GPIO(Pin)を使う場合は、Pin0,1,2はワニ口クリップなどで結線できます。それ以外のピンは[micro:bitのブレークアウトボード](https://www.google.com/search?q=micro:bit+breakout&tbm=isch)を使ってピンヘッダ経由で配線します。
 example.htmlのGPIO部は、以下の回路図で動くように組まれています。
 ![GPIOを使う場合の回路図](imgs/micro_bit_gpio.png)
+
+## ライブラリの使い方 ##
+  * 基本的には[example.html](https://github.com/chirimen-oh/webGPIO-etc-on-microbit-via-webBluetooth/blob/master/example.html)に使い方が網羅されています。コメントに細かなことが記載されています。
+  
+大まかな流れは以下の通りです
+  * ライブラリを読み込む ```<script src="microBitBLE.js"></script>```
+  * 必ず最初に以下の関数を呼び出す（呼び出し方に注意事項があり）
+    * まず、Human Interaction(利用者の操作)を介して```microBitBLE.connect()```を呼び、micro:bitとBLE接続する。例えば
+    * HTMLで、```<input type="button" value="Connect" onclick="microBitBLEConnectCaller()"/>```
+    * javascriptで、```async function microBitBLEConnectCaller(){ microBitBLE.connect();}```など
+  * センサーデータの取得(ボタンもセンサーの一種とみなす)
+    * 指示してデータを取得するタイプと、データが変化したらコールバック関数に帰ってくるタイプの、２通りが使えます。
+    * 指示してデータを取得するタイプ
+      * すべて非同期の関数なので、async接頭辞付きの関数内で使用する。返り値は加速度と磁気が３軸のため、.x,.y,.zで各軸にアクセス。他は値がそのまま得られます。
+      * ```var kasokudo = await microBitBLE.getAccelerometer();`
+      * これ以外に、```getMagnetometer(), getTemperature(), getButtonA(), getButtonB()```が使えます。
+    * コールバック関数を指定するタイプ
+      * 指定したコールバック関数の第一引数に同様の形式で値が返ってきます。
+      * ```microBitBLE.onAccelerometerChange = accelerometerCBF;```
+      * これ以外に、onMagnetometerChange, onButtonAChange, onButtonBChange, onThermometerChange```が使えます。
+  * マトリクスLEDの表示
+    * 指定したASCII文字列が流れて表示するタイプ、指定したビットパターンが固定表示されるタイプの二つの関数が使えます。
+    * ```microBitBLE.setLEDtext(ptext);``` :  ASCII文字列
+    * ```microBitBLE.setLEDmatrix(matrixData);``` :  ビットパターン指定
+      * matrixData は Uint8Array(5) (```var matrixData = new Uint8Array(5);```)
+      * 配列の0番目:一番上の列...4番目:一番下の列
+      * 各配列には8ビット右詰めで、LEDの各桁の点灯状態入れていく(点灯:1,消灯:0)
+      * 例：```microBitBLE.setLEDmatrix(new Uint8Array([0b11111,0b10001,0b10101,0b10001,0b11111]))``` で周囲と中心のLEDを点灯
+  * ピン(GPIO Port)の利用
+    * ピンは入力もしくは出力として利用できます。ただし、ピン毎に、各種制約があり、使えないピン、入力しかできないピン、アナログ入力もできるピン　などがあります。ピン毎の制約は、[example.html](https://github.com/chirimen-oh/webGPIO-etc-on-microbit-via-webBluetooth/blob/master/example.html)の、```testWebGPIO()```関数内のコメントに書かれています。
+    * webGPIOに準拠したAPIで利用できます。ただし、本来のwebGPIOは```nabigator.requestGPIOAccess()```でGPIOポートへアクセスを取得しますが、このライブラリでは代わりに、```microBitBLE.requestGPIOAccess()```で取得します。(理由はCHIRIMEN for RPi3の同関数とのコンフリクトを回避するため)
+    * ポートの入出力モードを設定するport.export()関数では、標準の"in","out"（デジタル入出力）に加えて"analogin"（アナログ入力）が使えます。ただし先述のポートごとの制約の範囲でに限ります。
 
 ## Notes ##
 * webBluetoothは、セキュリティサンドボックス面で、結構ハマりポイントがある
