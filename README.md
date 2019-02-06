@@ -41,8 +41,9 @@ example.htmlのGPIO部は、以下の回路図で動くように組まれてい�
 ### 初期化 ###
   * ```https```でアクセスできるサイト上に以下の処理を書いたウェブアプリ(コンテンツ,html,js)を作ります。
   * ライブラリを読み込む ```<script src="microBitBLE.js"></script>```
-  * 必ず最初に以下の関数を呼び出す（呼び出し方に注意事項があり）
-    * まず、Human Interaction(利用者の操作)を介して```microBitBLE.connect()```を呼び、micro:bitとBLE接続します。例えば
+    * ライブラリは```microBitBLE```というインスタンスに集約されています。
+  * 以下の関数を呼び出しmicro:bitとBLE接続します。（呼び出し方に注意事項があり）
+    * まず、Human Interaction(利用者の操作)を介して```microBitBLE.connect()```を呼び、例えば
     * HTMLで、```<input type="button" value="Connect" onclick="microBitBLEConnectCaller()"/>```
     * javascriptで、```async function microBitBLEConnectCaller(){ microBitBLE.connect();}```など
 
