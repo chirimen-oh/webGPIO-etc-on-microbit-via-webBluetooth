@@ -50,37 +50,41 @@ example.htmlのGPIO部は、以下の回路図で動くように組まれてい�
 初期化後は、以下の機能を独立して使用することができるようになります。複数の機能を使う場合でも初期化は一回行えば良いです。
 
 ### センサーデータの取得(ボタンもセンサーの一種とみなします) ###
-  * 指示してデータを取得するタイプと、データが変化したらコールバック関数に帰ってくるタイプの、２タイプが使えます。
+指示してデータを取得するタイプと、データが変化したらコールバック関数に帰ってくるタイプの、２タイプが使えます。
   
 #### 指示してデータを取得するタイプ ####
-  * すべて非同期の関数なので、async接頭辞付きの関数内で使用します。返り値は加速度と磁気が３軸のため、```.x,.y,.z```で各軸にアクセス。他は値がそのまま得られます。
+すべて非同期の関数なので、async接頭辞付きの関数内で使用します。返り値は加速度と磁気が３軸のため、```.x,.y,.z```で各軸にアクセス。他は値がそのまま得られます。
 ```
 async function getKasokudo(){
   var kasokudo = await microBitBLE.getAccelerometer();
   console.log(kasokudo.x,kasokudo.y,kasokudo.z);
 }
 ```
-  * ```getAccelerometer()```以外に、```getMagnetometer(), getTemperature(), getButtonA(), getButtonB()```が使えます。
+
+```getAccelerometer()```以外に、```getMagnetometer(), getTemperature(), getButtonA(), getButtonB()```が使えます。
   
 #### コールバック関数を指定するタイプ ####
-  * 指定したコールバック関数の第一引数に同様の形式で値が返ってきます。
+指定したコールバック関数の第一引数に同様の形式で値が返ってきます。
 ```
 function accelerometerCBF(val){
   console.log(val.x,val.y,val.z);
 }
 microBitBLE.onAccelerometerChange = accelerometerCBF;
 ```
-  * ```onAccelerometerChange```以外に、```onMagnetometerChange, onButtonAChange, onButtonBChange, onThermometerChange```が使えます。
+```onAccelerometerChange```以外に、```onMagnetometerChange, onButtonAChange, onButtonBChange, onThermometerChange```が使えます。
 
 ### マトリクスLEDの表示 ###
-  * 指定したASCII文字列が流れて表示するタイプ、指定したビットパターンが固定表示されるタイプの二つの関数が使えます。
+指定したASCII文字列が流れて表示するタイプ、指定したビットパターンが固定表示されるタイプの二つの関数が使えます。
   
 #### ASCII文字列表示 ####
+
 ```microBitBLE.setLEDtext("hello!");```
 
 #### ビットパターン表示 ####
+
 ```microBitBLE.setLEDmatrix(matrixData);```
-  * matrixData は Uint8Array(5) (```var matrixData = new Uint8Array(5);```)
+
+* matrixData は Uint8Array(5) (```var matrixData = new Uint8Array(5);```)
   * 配列の0番目:一番上の列...4番目:一番下の列
   * 各配列には8ビット右詰めで、LEDの各桁の点灯状態入れていく(点灯:1,消灯:0)
   * 例：周囲と中心のLEDを点灯
