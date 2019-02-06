@@ -78,11 +78,15 @@ microBitBLE.onAccelerometerChange = accelerometerCBF;
   
 #### ASCII文字列表示 ####
 
-```microBitBLE.setLEDtext("hello!");```
+```
+microBitBLE.setLEDtext("hello!");
+```
 
 #### ビットパターン表示 ####
 
-```microBitBLE.setLEDmatrix(matrixData);```
+```
+microBitBLE.setLEDmatrix(matrixData);
+```
 
 * matrixData は Uint8Array(5) (```var matrixData = new Uint8Array(5);```)
   * 配列の0番目:一番上の列...4番目:一番下の列
