@@ -38,33 +38,53 @@ example.htmlのGPIO部は、以下の回路図で動くように組まれてい�
   * 基本的には[example.html](https://github.com/chirimen-oh/webGPIO-etc-on-microbit-via-webBluetooth/blob/master/example.html)に使い方が網羅されています。コメントに細かなことが記載されています。
   
 大まかな流れは以下の通りです
+### 初期化 ###
   * ライブラリを読み込む ```<script src="microBitBLE.js"></script>```
   * 必ず最初に以下の関数を呼び出す（呼び出し方に注意事項があり）
     * まず、Human Interaction(利用者の操作)を介して```microBitBLE.connect()```を呼び、micro:bitとBLE接続します。例えば
     * HTMLで、```<input type="button" value="Connect" onclick="microBitBLEConnectCaller()"/>```
     * javascriptで、```async function microBitBLEConnectCaller(){ microBitBLE.connect();}```など
-  * センサーデータの取得(ボタンもセンサーの一種とみなします)
-    * 指示してデータを取得するタイプと、データが変化したらコールバック関数に帰ってくるタイプの、２タイプが使えます。
-    * 指示してデータを取得するタイプ
-      * すべて非同期の関数なので、async接頭辞付きの関数内で使用します。返り値は加速度と磁気が３軸のため、.x,.y,.zで各軸にアクセス。他は値がそのまま得られます。
-      * ```var kasokudo = await microBitBLE.getAccelerometer(); console.log(kasokudo.x,kasokudo.y,kasokudo.z);```
-      * これ以外に、```getMagnetometer(), getTemperature(), getButtonA(), getButtonB()```が使えます。
-    * コールバック関数を指定するタイプ
-      * 指定したコールバック関数の第一引数に同様の形式で値が返ってきます。
-      * ```microBitBLE.onAccelerometerChange = accelerometerCBF;```
-      * これ以外に、onMagnetometerChange, onButtonAChange, onButtonBChange, onThermometerChange```が使えます。
-  * マトリクスLEDの表示
-    * 指定したASCII文字列が流れて表示するタイプ、指定したビットパターンが固定表示されるタイプの二つの関数が使えます。
-    * ```microBitBLE.setLEDtext(ptext);``` :  ASCII文字列
-    * ```microBitBLE.setLEDmatrix(matrixData);``` :  ビットパターン指定
-      * matrixData は Uint8Array(5) (```var matrixData = new Uint8Array(5);```)
-      * 配列の0番目:一番上の列...4番目:一番下の列
-      * 各配列には8ビット右詰めで、LEDの各桁の点灯状態入れていく(点灯:1,消灯:0)
-      * 例：```microBitBLE.setLEDmatrix(new Uint8Array([0b11111,0b10001,0b10101,0b10001,0b11111]))``` で周囲と中心のLEDを点灯
-  * ピン(GPIO Port)の利用
-    * ピンは入力もしくは出力として利用できます。ただし、ピン毎に、各種制約があり、使えないピン、入力しかできないピン、アナログ入力もできるピン　などがあります。ピン毎の制約は、[example.html](https://github.com/chirimen-oh/webGPIO-etc-on-microbit-via-webBluetooth/blob/master/example.html)の、```testWebGPIO()```関数内のコメントに書かれています。
-    * webGPIOに準拠したAPIで利用できます。ただし、本来のwebGPIOは```nabigator.requestGPIOAccess()```でGPIOポートへアクセスを取得しますが、このライブラリでは代わりに、```microBitBLE.requestGPIOAccess()```で取得します。(理由はCHIRIMEN for RPi3の同関数とのコンフリクトを回避するため)
-    * ポートの入出力モードを設定するport.export()関数では、標準の"in","out"（デジタル入出力）に加えて"analogin"（アナログ入力）が使えます。ただし先述のポートごとの制約の範囲でに限ります。
+
+初期化後は、以下の機能を独立して使用することができるようになります。複数の機能を使う場合でも初期化は一回行えば良いです。
+
+### センサーデータの取得(ボタンもセンサーの一種とみなします) ###
+  * 指示してデータを取得するタイプと、データが変化したらコールバック関数に帰ってくるタイプの、２タイプが使えます。
+#### 指示してデータを取得するタイプ ####
+  * すべて非同期の関数なので、async接頭辞付きの関数内で使用します。返り値は加速度と磁気が３軸のため、.x,.y,.zで各軸にアクセス。他は値がそのまま得られます。
+```
+var kasokudo = await microBitBLE.getAccelerometer();
+console.log(kasokudo.x,kasokudo.y,kasokudo.z);
+```
+  * これ以外に、```getMagnetometer(), getTemperature(), getButtonA(), getButtonB()```が使えます。
+#### コールバック関数を指定するタイプ ####
+  * 指定したコールバック関数の第一引数に同様の形式で値が返ってきます。
+```
+function accelerometerCBF(val){
+  console.log(val.x,val.y,val.z);
+}
+microBitBLE.onAccelerometerChange = accelerometerCBF;
+```
+  * これ以外に、onMagnetometerChange, onButtonAChange, onButtonBChange, onThermometerChange```が使えます。
+
+### マトリクスLEDの表示 ###
+  * 指定したASCII文字列が流れて表示するタイプ、指定したビットパターンが固定表示されるタイプの二つの関数が使えます。
+#### ASCII文字列表示 ####
+```microBitBLE.setLEDtext(ptext);```
+#### ビットパターン表示 ####
+```microBitBLE.setLEDmatrix(matrixData);```
+  * matrixData は Uint8Array(5) (```var matrixData = new Uint8Array(5);```)
+  * 配列の0番目:一番上の列...4番目:一番下の列
+  * 各配列には8ビット右詰めで、LEDの各桁の点灯状態入れていく(点灯:1,消灯:0)
+例：で周囲と中心のLEDを点灯
+```
+var matrixData = new Uint8Array([0b11111,0b10001,0b10101,0b10001,0b11111]);
+microBitBLE.setLEDmatrix(matrixData);
+``` 
+
+### ピン(GPIO Port)の利用 ###
+  * ピンは入力もしくは出力として利用できます。ただし、ピン毎に、各種制約があり、使えないピン、入力しかできないピン、アナログ入力もできるピン　などがあります。ピン毎の制約は、[example.html](https://github.com/chirimen-oh/webGPIO-etc-on-microbit-via-webBluetooth/blob/master/example.html)の、```testWebGPIO()```関数内のコメントに書かれています。
+  * webGPIOに準拠したAPIで利用できます。ただし、本来のwebGPIOは```nabigator.requestGPIOAccess()```でGPIOポートへアクセスを取得しますが、このライブラリでは代わりに、```microBitBLE.requestGPIOAccess()```で取得します。(理由はCHIRIMEN for RPi3の同関数とのコンフリクトを回避するため)
+  * ポートの入出力モードを設定するport.export()関数では、標準の"in","out"（デジタル入出力）に加えて"analogin"（アナログ入力）が使えます。ただし先述のポートごとの制約の範囲でに限ります。
 
 ## Notes ##
 * webBluetoothは、セキュリティサンドボックス面で、結構ハマりポイントがある
