@@ -35,9 +35,9 @@ example.htmlのGPIO部は、以下の回路図で動くように組まれてい�
 ![GPIOを使う場合の回路図](imgs/micro_bit_gpio.png)
 
 ## ライブラリの使い方 ##
-  * 基本的には[example.html](https://github.com/chirimen-oh/webGPIO-etc-on-microbit-via-webBluetooth/blob/master/example.html)に使い方が網羅されています。コメントに細かな注意事項などが記載されています。
+  * 基本的には実際に動くコード[example.html](https://github.com/chirimen-oh/webGPIO-etc-on-microbit-via-webBluetooth/blob/master/example.html)に使い方が網羅されているのでそちらを参照してください。コメントに細かな注意事項なども記載されています。
   
-大まかな流れは以下の通りです
+大まかな流れは以下の通りです。[web bluetooth](https://webbluetoothcg.github.io/web-bluetooth/)を直に使うのと比べてだいぶ簡単だと思います。
 ### 初期化 ###
   * ```https```でアクセスできるサイト上に以下の処理を書いたウェブアプリ(コンテンツ,html,js)を作ります。
   * ライブラリを読み込む ```<script src="microBitBLE.js"></script>```
