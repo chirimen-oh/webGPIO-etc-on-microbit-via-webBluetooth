@@ -43,9 +43,9 @@ example.htmlのGPIO部は、以下の回路図で動くように組まれてい�
   * ライブラリを読み込む ```<script src="microBitBLE.js"></script>```
     * ライブラリは```microBitBLE```というインスタンスに集約されています。
   * 以下の関数を呼び出しmicro:bitとBLE接続します。（呼び出し方に注意事項があり）
-    * まず、Human Interaction(利用者の操作)を介して```microBitBLE.connect()```を呼び、例えば
-    * HTMLで、```<input type="button" value="Connect" onclick="microBitBLEConnectCaller()"/>```
-    * javascriptで、```async function microBitBLEConnectCaller(){ microBitBLE.connect();}```など
+    * Human Interaction(利用者の操作)を介して```microBitBLE.connect()```を呼びます。例えば・・
+    * HTML: ```<input type="button" value="Connect" onclick="microBitBLEConnectCaller()"/>```
+    * javascript: ```async function microBitBLEConnectCaller(){ microBitBLE.connect();}```
 
 初期化後は、以下の機能を独立して使用することができるようになります。複数の機能を使う場合でも初期化は一回行えば良いです。
 
