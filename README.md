@@ -11,13 +11,12 @@
 * ロードが成功すると、初期状態ではLEDに"♡(ハートマーク)"、masterとのBluetooth接続が完了すると"◇"表示になります。
 
 ## WebApps on Host Computer (master) ##
-* **[ためしてみる](https://chirimen.org/webGPIO-etc-on-microbit-via-webBluetooth/example.html)**
-* [microBitBLE.js](microBitBLE.js)がmicro:bitのセンサなどやGPIOピンをWebBluetooth経由で使うためのドライバライブラリです。
+* **[ためしてみる(example.html)](https://chirimen.org/webGPIO-etc-on-microbit-via-webBluetooth/example.html)**
+* micro:bitのセンサなどやGPIOピンをWebBluetooth経由で使うためのドライバライブラリが[microBitBLE.js](microBitBLE.js)です。
   * 使い方は**[ライブラリの使い方](#ライブラリの使い方)**を参照して下さい。
-  * 使える内蔵デバイス: 3軸加速度, 3軸磁気, 温度, ボタンAB, マトリクスLED(文字・パターン)
+  * 使える内蔵デバイス: 3軸加速度センサ, 3軸磁気センサ, 温度センサ, ボタンAB, マトリクスLED(文字・パターン)
   * GPIOピンはCHIRIMEN for RPi3と同じく、[webGPIO](https://rawgit.com/browserobo/WebGPIO/master/index.html)に準拠したAPIで操作します。
   * Pin(Port)0,1,2は、export("analogin")でアナログ入力(0-3V,8bit)にもできます。
-  * ドライバライブラリ(microBitBLE.js)は[こちら](https://github.com/chirimen-oh/webGPIO-etc-on-microbit-via-webBluetooth/blob/master/microBitBLE.js)）
 * ホストコンピュータの要件
   * CHIRIMEN for Raspberry Pi3環境で動作確認。CHIRIMEN for Raspberry Pi3上のGPIO、I2Cと同時利用可能です。
   * Bluetoothインターフェースが載ったコンピュータでも動作すると思います。
@@ -36,15 +35,16 @@ example.htmlのGPIO部は、以下の回路図で動くように組まれてい�
 ![GPIOを使う場合の回路図](imgs/micro_bit_gpio.png)
 
 ## ライブラリの使い方 ##
-基本的には実際に動くコード**[example.html](https://github.com/chirimen-oh/webGPIO-etc-on-microbit-via-webBluetooth/blob/master/example.html)**に使い方が網羅されているのでそちらを参照してください。コメントに細かな注意事項なども記載されています。
-  
+* 基本的には実際に動くコード**[example.html](https://github.com/chirimen-oh/webGPIO-etc-on-microbit-via-webBluetooth/blob/master/example.html)**に使い方が網羅されているのでそちらを参照してください。コメントに細かな注意事項なども記載されています。
+* ドライバライブラリ(microBitBLE.js)は[こちら](https://github.com/chirimen-oh/webGPIO-etc-on-microbit-via-webBluetooth/blob/master/microBitBLE.js)）
+ 
 大まかな流れは以下の通りです。[web bluetooth](https://webbluetoothcg.github.io/web-bluetooth/)を直に使うのと比べてだいぶ簡単だと思います。
 ### 初期化 ###
   * ```https```でアクセスできるサイト上に以下の処理を書いたウェブアプリ(コンテンツ,html,js)を作ります。
   * ライブラリを読み込む ```<script src="microBitBLE.js"></script>```
     * ライブラリは```microBitBLE```というインスタンスに集約されています。
   * 以下の関数を呼び出しmicro:bitとBLE接続します。（呼び出し方に注意事項があり）
-    * Human Interaction(利用者の操作)を介して```microBitBLE.connect()```を呼びます。例えば・・
+    * Human Interaction(利用者の操作(ボタンUIなど))を介して```microBitBLE.connect()```を呼びます。例えば・・
     * HTML: ```<input type="button" value="Connect" onclick="microBitBLEConnectCaller()"/>```
     * javascript: ```async function microBitBLEConnectCaller(){ await microBitBLE.connect();}```
 
