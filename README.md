@@ -40,14 +40,14 @@ example.htmlのGPIO部は、以下の回路図で動くように組まれてい�
 大まかな流れは以下の通りです
   * ライブラリを読み込む ```<script src="microBitBLE.js"></script>```
   * 必ず最初に以下の関数を呼び出す（呼び出し方に注意事項があり）
-    * まず、Human Interaction(利用者の操作)を介して```microBitBLE.connect()```を呼び、micro:bitとBLE接続する。例えば
+    * まず、Human Interaction(利用者の操作)を介して```microBitBLE.connect()```を呼び、micro:bitとBLE接続します。例えば
     * HTMLで、```<input type="button" value="Connect" onclick="microBitBLEConnectCaller()"/>```
     * javascriptで、```async function microBitBLEConnectCaller(){ microBitBLE.connect();}```など
-  * センサーデータの取得(ボタンもセンサーの一種とみなす)
-    * 指示してデータを取得するタイプと、データが変化したらコールバック関数に帰ってくるタイプの、２通りが使えます。
+  * センサーデータの取得(ボタンもセンサーの一種とみなします)
+    * 指示してデータを取得するタイプと、データが変化したらコールバック関数に帰ってくるタイプの、２タイプが使えます。
     * 指示してデータを取得するタイプ
-      * すべて非同期の関数なので、async接頭辞付きの関数内で使用する。返り値は加速度と磁気が３軸のため、.x,.y,.zで各軸にアクセス。他は値がそのまま得られます。
-      * ```var kasokudo = await microBitBLE.getAccelerometer();`
+      * すべて非同期の関数なので、async接頭辞付きの関数内で使用します。返り値は加速度と磁気が３軸のため、.x,.y,.zで各軸にアクセス。他は値がそのまま得られます。
+      * ```var kasokudo = await microBitBLE.getAccelerometer();```
       * これ以外に、```getMagnetometer(), getTemperature(), getButtonA(), getButtonB()```が使えます。
     * コールバック関数を指定するタイプ
       * 指定したコールバック関数の第一引数に同様の形式で値が返ってきます。
