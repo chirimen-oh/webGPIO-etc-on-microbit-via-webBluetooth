@@ -47,7 +47,7 @@ example.htmlのGPIO部は、以下の回路図で動くように組まれてい�
     * 指示してデータを取得するタイプと、データが変化したらコールバック関数に帰ってくるタイプの、２タイプが使えます。
     * 指示してデータを取得するタイプ
       * すべて非同期の関数なので、async接頭辞付きの関数内で使用します。返り値は加速度と磁気が３軸のため、.x,.y,.zで各軸にアクセス。他は値がそのまま得られます。
-      * ```var kasokudo = await microBitBLE.getAccelerometer();```
+      * ```var kasokudo = await microBitBLE.getAccelerometer(); console.log(kasokudo.x,kasokudo.y,kasokudo.z);```
       * これ以外に、```getMagnetometer(), getTemperature(), getButtonA(), getButtonB()```が使えます。
     * コールバック関数を指定するタイプ
       * 指定したコールバック関数の第一引数に同様の形式で値が返ってきます。
