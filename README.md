@@ -91,7 +91,8 @@ microBitBLE.setLEDmatrix(matrixData);
 ### ピン(GPIO Port)の利用 ###
   * ピンは入力もしくは出力として利用できます。ただしピン毎に各種制約があり、使えないピン、入力しかできないピン、アナログ入力もできるピン　などあります。具体的な制約は[example.html](https://github.com/chirimen-oh/webGPIO-etc-on-microbit-via-webBluetooth/blob/master/example.html)の、```testWebGPIO()```関数内のコメントに書かれています。
   * [webGPIO](https://rawgit.com/browserobo/WebGPIO/master/index.html)に準拠したAPIで利用できます。ただし、本来のwebGPIOは```navigator.requestGPIOAccess()```でGPIOポートアクセスを取得しますが、このライブラリでは代わりに、```microBitBLE.requestGPIOAccess()```で取得します。(理由はCHIRIMEN for RPi3の同関数とのコンフリクトを回避するため)
-  * ポートの入出力モードを設定する```port.export()```関数では、標準の```"in","out"```（デジタル入出力）に加えて```"analogin"```（アナログ入力（uint8 0V:0～3V:255 ））が使えます。ただし先述のポートごとの制約の範囲に限ります。
+    * ちなみに、入力機能はセンサーデータの取得と同様に関数タイプ、コールバックタイプの２タイプあり。
+  * ポートの入出力モードを設定する```port.export()```関数では、標準の```"in","out"```（デジタル入出力）に加え```"analogin"```（アナログ入力（uint8 0V:0～3V:255 ））が使えます。ただし先述のポートごとの制約の範囲に限ります。
 
 ## Notes ##
 * webBluetoothは、セキュリティサンドボックス面で、結構ハマりポイントがある
