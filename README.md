@@ -112,7 +112,7 @@ microBitBLE.setLEDmatrix(matrixData);
   * requestDevice()は、人による操作(buttonなど)を引き金にして呼び出される必要がある(らしい)（一回の操作から二回呼び出すのもNG）
     * そのため、microBitBLE.connect()も同じ制約がある
   * UUIDはハイフンをしっかり入れる必要がある。
-* Windows10では```Characteristic.readValue()```で取った値が変化しない不具合があるようです[ToDo_ISSUES](#ToDo_ISSUES)参照(2019/1時点)
+* Chrome/Windows10では```Characteristic.readValue()```で取った値が変化しない不具合があるようです。[ToDo_ISSUES](#ToDo_ISSUES)参照(2019/1時点)
 
 ## ToDo_ISSUES ##
 * PWM-output
