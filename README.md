@@ -115,4 +115,4 @@ microBitBLE.setLEDmatrix(matrixData);
 ## ToDo, ISSUES ##
 * PWM-output
 * I2C support　もちろん webI2C over webBluetoothにしたいですね。
-* chrome/windows10では、microBitBLE.get*, port.read API等値読み取り関数がうまく動いてない？(値が変わらない・・) WebBluetooth/Chrome/Windows10の実装がおかしい？ (CHIRIMEN RPi3(というよりraspbian(linux)上のchromium)ではうまく動いています)
+* chrome/windows10では、microBitBLE.get*, port.read API等値読み取り関数がうまく動いてない？(値が変わらない・・) WebBluetooth/Chrome/Windows10の実装(```Characteristic.readValue()```)がおかしい？ (CHIRIMEN RPi3(というよりraspbian(linux)上のchromium)ではうまく動いています)
