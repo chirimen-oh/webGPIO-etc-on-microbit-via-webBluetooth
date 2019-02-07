@@ -21,7 +21,7 @@
   * CHIRIMEN for Raspberry Pi3環境で動作確認。CHIRIMEN for Raspberry Pi3上のGPIO、I2Cと同時利用可能です。
   * Bluetoothインターフェースが載ったコンピュータでも動作すると思います。
     * ブラウザはChromeや Chromium。Web Bluetoothサポートブラウザが必要
-    * MacやWindows, Linux PC (Windowsでは、データ取得系APIに動作不具合があるようです。ISSUES参照)
+    * MacやWindows, Linux PC (Windowsでは、データ取得系APIに動作不具合があるようです。[ISSUES](#ToDo_ISSUES)参照)
     * Androidスマホ、タブレット
 
 ## 回路図 ##
@@ -104,16 +104,17 @@ microBitBLE.setLEDmatrix(matrixData);
     * ちなみに、入力機能はセンサーデータの取得と同様に関数タイプ、コールバックタイプの２タイプあり。
   * ポートの入出力モードを設定する```port.export()```関数では、標準の```"in","out"```（デジタル入出力）に加え```"analogin"```（アナログ入力（uint8 0V:0～3V:255 ））が使えます。ただし先述のポートごとの制約の範囲に限ります。
 
-## Notes ##
-* webBluetoothは、セキュリティサンドボックス面で、結構ハマりポイントがある
+## Notes on Web Bluetooth ##
+* microBitBLEライブラリを使っているとWeb BluetoothのAPIを直に触ることはないですが、[ライブラリのソース](https://github.com/chirimen-oh/webGPIO-etc-on-microbit-via-webBluetooth/blob/master/microBitBLE.js)にWeb Bluetooth APIを直に使うときの情報を載せています。
+* Web Bluetoothは、セキュリティサンドボックス面で、結構ハマりポイントがあるようです
   * https必須
   * requestDevice()では、optionalServicesの列挙が必須(ドライバソース参照)
   * requestDevice()は、人による操作(buttonなど)を引き金にして呼び出される必要がある(らしい)（一回の操作から二回呼び出すのもNG）
     * そのため、microBitBLE.connect()も同じ制約がある
   * UUIDはハイフンをしっかり入れる必要がある。
-  * Windows10では```Characteristic.readValue()```で取った値が変化しない不具合があるようです(2019/1時点)
+* Windows10では```Characteristic.readValue()```で取った値が変化しない不具合があるようです[ToDo_ISSUES](#ToDo_ISSUES)参照(2019/1時点)
 
-## ToDo, ISSUES ##
+## ToDo_ISSUES ##
 * PWM-output
 * I2C support　もちろん webI2C over webBluetoothにしたいですね。
 * chrome/windows10では、microBitBLE.get*, port.read API等値読み取り関数がうまく動いてない？(値が変わらない・・) WebBluetooth/Chrome/Windows10の実装(```Characteristic.readValue()```)がおかしい？ (CHIRIMEN RPi3(というよりraspbian(linux)上のchromium)ではうまく動いています)
